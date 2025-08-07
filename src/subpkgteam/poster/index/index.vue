@@ -10,39 +10,58 @@
       @click-left="back"
     />
     <div class="list-container">
-      <div class="operate-tip">选择照片以生成名片</div>
+      <div class="operate-tip">
+        选择照片以生成名片
+      </div>
       <div class="list-wrap">
-        <div class="list-item" v-for="item in sharePosterBgList" :key="item" @click="choosePoster(item)">
+        <div
+          v-for="item in sharePosterBgList"
+          :key="item"
+          class="list-item"
+          @click="choosePoster(item)"
+        >
           <image
             class="share-img"
             :src="item"
           />
           <uni-icons
+            v-if="choosedPoster === item"
             type="checkbox"
             size="18"
             color="#FF265C"
-            v-if="choosedPoster === item"
             class="check-icon"
-          ></uni-icons>
+          />
         </div>
-        <div class="list-item add-item" @click="uploadPosterBg">
-          <uni-icons type="plusempty" size="32" color="#000"></uni-icons>
+        <div
+          class="list-item add-item"
+          @click="uploadPosterBg"
+        >
+          <uni-icons
+            type="plusempty"
+            size="32"
+            color="#000"
+          />
         </div>
       </div>
     </div>
-    <div class="generate-btn" @click="toGeneratePoster">立即生成</div>
+    <div
+      class="generate-btn"
+      @click="toGeneratePoster"
+    >
+      立即生成
+    </div>
     <posterPopup ref="posterPopupRef" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reqUploadAnyFile } from "@/api/others";
+import { reqUploadAnyFile } from '@/api/others';
 import useTeam from '@/stores/team-store';
-import { back } from "@/utils/navigate";
-import { parseUploadFileUrl } from "@/utils/parse";
+import { back } from '@/utils/navigate';
+import { parseUploadFileUrl } from '@/utils/parse';
 import { showToast } from '@/utils/tools';
-import { uniChooseMedia } from "@/utils/uniapp-api-promised";
-import posterPopup from "./components/posterPopup.vue";
+import { uniChooseMedia } from '@/utils/uniapp-api-promised';
+import posterPopup from './components/posterPopup.vue';
 
 const ctx = getCurrentInstance();
 const teamStore = useTeam();
@@ -50,7 +69,7 @@ const { sharePosterBgList } = storeToRefs(teamStore);
 const choosedPoster = ref<string>('');
 
 const toGeneratePoster = () => {
-  if(!choosedPoster.value) {
+  if (!choosedPoster.value) {
     showToast('请选择海报背景!');
     return;
   }
@@ -66,9 +85,9 @@ const toGeneratePoster = () => {
 const chooseImg = async (count = 1) => {
   const chooseRes = await uniChooseMedia({
     count,
-    sizeType: ["original"],
-    sourceType: ["album", "camera"],
-    mediaType: ["image"],
+    sizeType: ['original'],
+    sourceType: ['album', 'camera'],
+    mediaType: ['image'],
   });
   if (!chooseRes?.tempFiles?.[0]?.tempFilePath) {
     return [];
@@ -89,7 +108,7 @@ const uploadPosterBg = async () => {
 
 const choosePoster = (item: string) => {
   choosedPoster.value = item;
-}
+};
 
 </script>
 

@@ -10,14 +10,17 @@
       @clickLeft="onClickNavBarLeft"
     />
     <!-- 海报图 -->
-    <Poster :posterHeight="posterHeight" />
+    <Poster :poster-height="posterHeight" />
     <!-- 底部菜单 -->
     <MenuBottom
-      :bottomMenuHeight="bottomMenuHeight"
-      :windowHeight="windowHeight"
+      :bottom-menu-height="bottomMenuHeight"
+      :window-height="windowHeight"
     />
     <!-- 左侧菜单 -->
-    <MenuLeft ref="menuLeftRef" :topNavHeight="navBarHeight" />
+    <MenuLeft
+      ref="menuLeftRef"
+      :top-nav-height="navBarHeight"
+    />
     <!-- 底部一屏之外的区域 -->
     <div class="bottom-unsee_area">
       <!-- 基本信息 -->
@@ -33,14 +36,14 @@
 </template>
 
 <script lang="ts" setup>
-import useTeam from "@/stores/team-store";
-import BaseInfo from "./components/BaseInfo.vue";
-import Dynamic from "./components/Dynamic.vue";
-import MenuBottom from "./components/MenuBottom.vue";
-import MenuLeft from "./components/MenuLeft.vue";
-import PersonStyle from "./components/PersonStyle.vue";
-import Poster from "./components/Poster.vue";
-import Work from "./components/Work.vue";
+import useTeam from '@/stores/team-store';
+import BaseInfo from './components/BaseInfo.vue';
+import Dynamic from './components/Dynamic.vue';
+import MenuBottom from './components/MenuBottom.vue';
+import MenuLeft from './components/MenuLeft.vue';
+import PersonStyle from './components/PersonStyle.vue';
+import Poster from './components/Poster.vue';
+import Work from './components/Work.vue';
 
 const ctx = getCurrentInstance();
 
@@ -48,11 +51,13 @@ const bottomMenuHeight = ref(80);
 const windowHeight = ref(0);
 const posterHeight = ref(0);
 const navBarHeight = ref(0);
-const navBarTitle = ref("主持人上小官");
-const teamStore = useTeam();  
+const teamStore = useTeam();
 
 const { getHomeInfo } = teamStore;
 const { teamName, shareCover } = storeToRefs(teamStore);
+
+// 计算导航栏标题，优先使用团队名称，如果没有则使用默认值
+const navBarTitle = computed(() => teamName.value || '暂无团队名称');
 
 /**
  * 导航栏左侧icon点击事件
@@ -73,8 +78,7 @@ const setHeightInfo = () => {
   const tmpNavBarHeight = (systemInfo?.statusBarHeight || 0) + 44;
   windowHeight.value = systemInfo.windowHeight;
   navBarHeight.value = tmpNavBarHeight;
-  posterHeight.value =
-    systemInfo.windowHeight - tmpNavBarHeight - bottomMenuHeight.value;
+  posterHeight.value = systemInfo.windowHeight - tmpNavBarHeight - bottomMenuHeight.value;
 };
 
 onShareAppMessage(() => ({

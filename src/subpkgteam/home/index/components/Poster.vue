@@ -10,21 +10,26 @@
     <div class="poster-area">
       <!-- 未上传海报的情况 -->
       <div
+        v-if="!photoList.length"
         class="upload-img-tip"
         @click="onClickUploadPoster"
-        v-if="!photoList.length"
       >
-        <image class="bg" src="@/static/images/my/upload-img.svg" />
-        <div class="text">点击上传图片</div>
+        <image
+          class="bg"
+          src="@/static/images/my/upload-img.svg"
+        />
+        <div class="text">
+          点击上传图片
+        </div>
       </div>
       <!-- 上传过海报的情况 -->
       <div class="has-upload">
         <uni-swiper-dot
+          v-if="photoList.length > 0"
           class="photo-swiper"
           :current="currentPhotoIndex"
           :info="photoList"
           :dots-styles="indicatorStyle"
-          v-if="photoList.length > 0"
         >
           <swiper
             class="photo-swiper"
@@ -40,22 +45,35 @@
               :key="index"
               class="photo-swiper-item"
             >
-              <image class="photo" :src="photo.src" mode="aspectFill" />
+              <image
+                class="photo"
+                :src="photo.src"
+                mode="aspectFill"
+              />
             </swiper-item>
           </swiper>
         </uni-swiper-dot>
-        <div class="setting-btn" @click="toEditPoster">
-          <uni-icons type="gear" size="18" color="#fff"></uni-icons>
+        <div
+          class="setting-btn"
+          @click="toEditPoster"
+        >
+          <uni-icons
+            type="gear"
+            size="18"
+            color="#fff"
+          />
         </div>
       </div>
     </div>
     <!-- 标题 -->
-    <div class="title">主持人上小官的作品合集</div>
+    <div class="title">
+      主持人上小官的作品合集
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import useTeam from "@/stores/team-store";
+import useTeam from '@/stores/team-store';
 
 const teamStore = useTeam();
 const { headImg } = storeToRefs(teamStore);
@@ -63,42 +81,37 @@ const { headImg } = storeToRefs(teamStore);
 type Props = {
   posterHeight: number;
 };
-const props = withDefaults(defineProps<Props>(), {
-  posterHeight: 0,
-});
+const props = withDefaults(defineProps<Props>(), { posterHeight: 0 });
 
 const posterHeightLast = computed(() => {
-  if (direction.value === "horizontal") {
+  if (direction.value === 'horizontal') {
     return 0.5 * props.posterHeight;
-  } else {
-    return props.posterHeight;
   }
+  return props.posterHeight;
 });
 
 const photoList = computed(() => {
   if (headImg.value) {
     const headImgObj = JSON.parse(headImg.value);
     return headImgObj.carouseList;
-  } else {
-    return [];
   }
+  return [];
 });
 
 const direction = computed(() => {
   if (headImg.value) {
     const headImgObj = JSON.parse(headImg.value);
     return headImgObj.direction;
-  } else {
-    return "vertical";
   }
+  return 'vertical';
 });
 
 /** 指示点样式 */
 const indicatorStyle = {
-  backgroundColor: "rgba(217,217,217,0.4)",
-  selectedBackgroundColor: "rgba(217,217,217,1)",
-  border: "1px rgba(255,255,255,1) solid",
-  selectedBorder: "1px rgba(255,255,255,1) solid",
+  backgroundColor: 'rgba(217,217,217,0.4)',
+  selectedBackgroundColor: 'rgba(217,217,217,1)',
+  border: '1px rgba(255,255,255,1) solid',
+  selectedBorder: '1px rgba(255,255,255,1) solid',
 };
 
 const currentPhotoIndex = ref(0);
@@ -110,16 +123,14 @@ const photoSwiperChange = (index: number) => {
  * 点击上传海报事件
  */
 const onClickUploadPoster = () => {
-  console.log("点击上传海报");
+  console.log('点击上传海报');
 };
 
 /**
  * 跳转到编辑海报页面
  */
 const toEditPoster = () => {
-  uni.navigateTo({
-    url: "/subpkgteam/poster/edit/index",
-  });
+  uni.navigateTo({ url: '/subpkgteam/poster/edit/index' });
 };
 </script>
 
