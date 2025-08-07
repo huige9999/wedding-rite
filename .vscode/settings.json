@@ -1,0 +1,17 @@
+{
+  "stylelint.validate": [
+    "css",
+    "less",
+    "postcss",
+    "scss",
+    "vue"
+  ],
+  "[javascript][typescript][vue]": {
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": [
+      "source.organizeImports",
+      "source.fixAll.stylelint",
+      "source.fixAll.eslint",
+    ],
+  },
+}

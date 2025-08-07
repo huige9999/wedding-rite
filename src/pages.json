@@ -1,0 +1,434 @@
+{
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/wedding-link/works",
+      "style": {
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/wedding-link/activities"
+    },
+    {
+      "path": "pages/wedding-link/get-vip"
+    },
+    {
+      "path": "pages/wedding-link/my",
+      "style": {}
+    },
+    {
+      "path": "pages/wedding-link/schedules",
+      "style": {
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/wedding-link/test",
+      "style": {}
+    }
+  ],
+  "tabBar": {
+    // 如果使用自定义tabbar需要将「custom」开启，反之则关闭
+    "custom": true,
+    "color": "#000",
+    "selectedColor": "#656972",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/wedding-link/works",
+        "text": "作品",
+        "iconPath": "static/icons/tab-bar/write-board.png",
+        "selectedIconPath": "static/icons/tab-bar/write-board-selected.png"
+      },
+      {
+        "pagePath": "pages/wedding-link/schedules",
+        "text": "档期",
+        "iconPath": "static/icons/tab-bar/calendar.png",
+        "selectedIconPath": "static/icons/tab-bar/calendar-selected.png"
+      },
+      {
+        "pagePath": "pages/wedding-link/get-vip",
+        "text": "会员",
+        "iconPath": "static/icons/tab-bar/get-vip.png",
+        "selectedIconPath": "static/icons/tab-bar/get-vip-active.png"
+      },
+      {
+        "pagePath": "pages/wedding-link/activities",
+        "text": "动态",
+        "iconPath": "static/icons/tab-bar/compass.png",
+        "selectedIconPath": "static/icons/tab-bar/compass-selected.png"
+      },
+      {
+        "pagePath": "pages/wedding-link/my",
+        "text": "我的",
+        "iconPath": "static/icons/tab-bar/person.png",
+        "selectedIconPath": "static/icons/tab-bar/person-selected.png"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationStyle": "custom"
+  },
+  "subPackages": [
+    {
+      "root": "subpkg/wedding-link",
+      "pages": [
+        {
+          "path": "activity-detail",
+          "style": {
+            "navigationBarTitleText": "activity-detail"
+          }
+        },
+        {
+          "path": "year-orders-overview",
+          "style": {
+            "navigationBarTitleText": "year-orders-overview"
+          }
+        },
+        {
+          "path": "invite-workmate-preview-share"
+        },
+        {
+          "path": "schedule-poster-settings"
+        },
+        {
+          "path": "schedule-poster"
+        },
+        {
+          "path": "view-schedule",
+          "style": {
+            "navigationBarTitleText": "view-schedule"
+          }
+        },
+        {
+          "path": "add-schedule",
+          "style": {
+            "navigationBarTitleText": "add-schedule"
+          }
+        },
+        {
+          "path": "edit-schedule",
+          "style": {
+            "navigationBarTitleText": "edit-schedule"
+          }
+        },
+        {
+          "path": "work-detail",
+          "style": {
+            "navigationBarTitleText": "work-detail"
+          }
+        },
+        {
+          "path": "add-work",
+          "style": {
+            "navigationBarTitleText": "add-work"
+          }
+        },
+        {
+          "path": "account-and-safty",
+          "style": {
+            "navigationBarTitleText": "账号与安全",
+            "navigationStyle": "default",
+            "navigationBarBackgroundColor": "#FFFFFF",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "invite-workmate",
+          "style": {
+            "navigationBarTitleText": "邀请同行得现金",
+            "navigationStyle": "default",
+            "navigationBarBackgroundColor": "#FFFFFF",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "send-activity"
+        },
+        {
+          "path": "edit-activity"
+        },
+        {
+          "path": "my-preview"
+        },
+        {
+          "path": "my-preview-share"
+        },
+        {
+          "path": "personal-profile",
+          "style": {
+            "navigationBarTitleText": "personal-profile"
+          }
+        },
+        {
+          "path": "personal-schedule",
+          "style": {
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "personal-info",
+          "style": {
+            "navigationBarTitleText": "personal-info"
+          }
+        },
+        {
+          "path": "personal-income",
+          "style": {
+            "navigationBarTitleText": "personal-income"
+          }
+        },
+        {
+          "path": "instant-withdrawal",
+          "style": {
+            "navigationBarTitleText": "instant-withdrawal"
+          }
+        },
+        {
+          "path": "activated-users",
+          "style": {
+            "navigationBarTitleText": "activated-users"
+          }
+        },
+        {
+          "path": "unactivated-users",
+          "style": {
+            "navigationBarTitleText": "unactivated-users"
+          }
+        },
+        {
+          "path": "invite-and-earn",
+          "style": {
+            "navigationBarTitleText": "invite-and-earn"
+          }
+        },
+        {
+          "path": "my-account",
+          "style": {
+            "navigationBarTitleText": "my-account"
+          }
+        },
+        {
+          "path": "login"
+        },
+        {
+          "path": "more-works"
+        },
+        {
+          "path": "more-works-share-workmate"
+        },
+        {
+          "path": "work-detail-share",
+          "style": {
+            "navigationBarTitleText": "work-detail-share"
+          }
+        },
+        {
+          "path": "work-detail-share-workmate",
+          "style": {
+            "navigationBarTitleText": "work-detail-share-workmate"
+          }
+        },
+        {
+          "path": "more-activities"
+        },
+        {
+          "path": "more-activities-share-workmate"
+        },
+        {
+          "path": "activity-detail-share",
+          "style": {
+            "navigationBarTitleText": "activity-detail-share"
+          }
+        },
+        {
+          "path": "activity-detail-share-workmate",
+          "style": {
+            "navigationBarTitleText": "activity-detail-share-workmate"
+          }
+        },
+        {
+          "path": "personal-schedule-share",
+          "style": {
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "schedule-poster-share",
+          "style": {
+            "navigationBarTitleText": "schedule-poster-share"
+          }
+        },
+        {
+          "path": "user-agreement",
+          "style": {
+            "navigationBarTitleText": "用户协议",
+            "navigationStyle": "default",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "my-bookings",
+          "style": {
+            "navigationBarTitleText": "my-bookings"
+          }
+        },
+        {
+          "path": "contact-support"
+        },
+        {
+          "path": "explore",
+          "style": {
+            "navigationStyle": "default",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        // 创建个人名片
+        {
+          "path": "create-personal-business-card",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        // 创建自定义海报
+        {
+          "path": "create-custom-poster",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        // 成功创建自定义海报
+        {
+          "path": "custom-poster-success",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/hlr",
+      "pages": [
+        {
+          "path": "home/index/index",
+          "style": {
+            "navigationBarTitleText": "主页"
+          }
+        },
+        {
+          "path": "cases/caseList/caseList",
+          "style": {
+            "navigationBarTitleText": "作品列表"
+          }
+        },
+        {
+          "path": "cases/caseDetail/caseDetail",
+          "style": {
+            "navigationBarTitleText": "作品详情"
+          }
+        },
+        {
+          "path": "comments/comments",
+          "style": {
+            "navigationBarTitleText": "我的评价",
+            "enablePullDownRefresh": true
+          }
+        },
+        {
+          "path": "schedules/checkSchedules/checkSchedules",
+          "style": {
+            "navigationBarTitleText": "档期"
+          }
+        },
+        {
+          "path": "videoPlay/videoPlay",
+          "style": {
+            "navigationBarTitleText": "视频预览"
+          }
+        },
+        {
+          "path": "cases/findDetail/findDetail",
+          "style": {
+            "navigationBarTitleText": "婚礼圈详情"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/bye",
+      "pages": [
+        {
+          "path": "index/index",
+          "style": {
+            "navigationBarTitleText": "谢幕信息填写"
+          }
+        }
+      ]
+    },{
+      "root": "subpkgteam",
+      "pages": [
+        {
+          "path": "home/index/index"
+        },
+        {
+          "path": "brandInfo/index/index"
+        },
+        {
+          "path": "schedules/index/index"
+        },
+        {
+          "path": "teamManage/index/index"
+        },
+        {
+          "path": "teamManage/member/index"
+        },
+        {
+          "path": "teamManage/setting/index"
+        },
+        {
+          "path": "teamManage/personStyle/index"
+        },
+        {
+          "path": "quotation/index/index"
+        },
+        {
+          "path": "quotation/add/index"
+        },
+        {
+          "path": "clientInfo/index/index"
+        },
+        {
+          "path": "setting/message/index"
+        },
+        {
+          "path": "poster/index/index"
+        },
+        {
+          "path": "poster/edit/index"
+        },
+        {
+          "path": "work/add/index"
+        },
+        {
+          "path": "work/index/index"
+        },
+        {
+          "path": "dynamic/index/index"
+        },
+        {
+          "path": "dynamic/add/index"
+        }
+      ]
+    }
+  ],
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      // uni-ui 规则如下配置
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+    }
+  }
+}

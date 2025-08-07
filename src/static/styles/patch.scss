@@ -1,0 +1,41 @@
+// 作为补丁的样式代码
+
+// XXX 因为在组件中无法进行样式穿透，所以将样式代码放在这里
+// 后续如果有更好的方法，可以将这里的代码删除
+.input{
+  .uni-stat__select{
+    .uni-stat-box{
+      .uni-select {
+        border: 1px solid #f1f1f1;
+        border-radius: 2px;
+
+        padding-left: 16px !important;
+
+        .uni-select__input-text,
+        .uni-select__input-placeholder {
+          font-size: 16px;
+
+        }
+      }
+    }
+  }
+}
+
+// 照片轮播图组组件的指示点样式
+.photo-swiper{
+  // stylelint-disable-next-line
+  ::v-deep .uni-swiper__dots-box {
+    left: 50% !important;
+
+    width: 100vw;
+
+    transform: translateX(-50%);
+
+    .uni-swiper__dots-item {
+      width: 30vw !important;
+      height: 2px !important;
+
+      border-radius: 13px !important;
+    }
+  }
+}

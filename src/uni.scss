@@ -1,0 +1,14 @@
+// 全局样式
+// tab-bar高度
+$tabBarHeight: 50px;
+$uni-bg-color: #fff;
+
+@font-face {
+  font-family: "CustomFont";
+  src: url("https://at.alicdn.com/t/c/font_4662475_mpm2mfsy1cj.ttf?t=1724384936490") format("truetype");
+}
+
+.CustomFont {
+  font-family: "CustomFont";
+  font-size: 14px;
+}
