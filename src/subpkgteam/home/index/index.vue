@@ -25,8 +25,6 @@
     <div class="bottom-unsee_area">
       <!-- 基本信息 -->
       <BaseInfo />
-      <!-- 个人风采 -->
-      <PersonStyle />
       <!-- 作品 -->
       <Work />
       <!-- 动态 -->
@@ -41,7 +39,6 @@ import BaseInfo from './components/BaseInfo.vue';
 import Dynamic from './components/Dynamic.vue';
 import MenuBottom from './components/MenuBottom.vue';
 import MenuLeft from './components/MenuLeft.vue';
-import PersonStyle from './components/PersonStyle.vue';
 import Poster from './components/Poster.vue';
 import Work from './components/Work.vue';
 
