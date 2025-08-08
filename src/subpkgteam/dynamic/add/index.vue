@@ -194,10 +194,9 @@ const onSubmit = async () => {
 
 const getWorkDetail = async () => {
   try {
-    const res = await reqGetWorksDetail(workId.value);
+    const res = await reqGetWorksDetail(dynamicId.value);
     console.log(res);
-    formData.cover = res.data.data.cover;
-    formData.title = res.data.data.title;
+    formData.content = res.data.data.content;
     const mediaInfo = JSON.parse(res.data.data.mediaInfo);
     posterList.value = mediaInfo.map((item, index) => ({
       index,
@@ -209,8 +208,8 @@ const getWorkDetail = async () => {
 };
 
 onLoad((options) => {
-  if (options.workId) {
-    workId.value = options.workId;
+  if (options?.dynamicId) {
+    dynamicId.value = options.dynamicId as string;
     getWorkDetail();
   }
 });

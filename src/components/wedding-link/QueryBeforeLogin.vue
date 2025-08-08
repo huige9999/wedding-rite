@@ -1,35 +1,60 @@
 <!-- 录音弹窗组件 -->
 <template>
-  <uni-popup ref="popup" type="bottom" :safe-area="false" :is-mask-click="false">
+  <uni-popup
+    ref="popup"
+    type="bottom"
+    :safe-area="false"
+    :is-mask-click="false"
+  >
     <div class="container">
-      <div class="info-item top">您有2个身份，请选择要登录的身份</div>
-      <div class="info-item" @click="chooseItem('host')">
-        <div class="nickname">{{ userInfo.nickname }}</div>
-        <div class="position">主持人</div>
+      <div class="info-item top">
+        您有2个身份，请选择要登录的身份
       </div>
-      <div class="info-item" @click="chooseItem('team')">
-        <div class="nickname">{{ teamName }}</div>
-        <div class="position">主持人团队</div>
+      <div
+        class="info-item"
+        @click="chooseItem('host')"
+      >
+        <div class="nickname">
+          {{ userInfo.nickname }}
+        </div>
+        <div class="position">
+          主持人
+        </div>
       </div>
-      <div class="cancel-item_btn" @click="close">取消</div>
+      <div
+        class="info-item"
+        @click="chooseItem('team')"
+      >
+        <div class="nickname">
+          {{ name }}
+        </div>
+        <div class="position">
+          主持人团队
+        </div>
+      </div>
+      <div
+        class="cancel-item_btn"
+        @click="close"
+      >
+        取消
+      </div>
     </div>
   </uni-popup>
 </template>
 
 <script setup lang="ts">
-import useTeam from "@/stores/team-store";
-import useUser from "@/stores/user-store";
-import type { UniPopupInstance } from "@uni-helper/uni-ui-types";
+import useTeam from '@/stores/team-store';
+import useUser from '@/stores/user-store';
+import type { UniPopupInstance } from '@uni-helper/uni-ui-types';
 
 const teamStore = useTeam();
 const userStore = useUser();
-const { teamName } = storeToRefs(teamStore);
+const { name } = storeToRefs(teamStore);
 const { userInfo } = storeToRefs(userStore);
 
 const ctx = getCurrentInstance();
 
 const emit = defineEmits<{(e: 'roleChoose', value: 'host' | 'team'): void }>();
-
 
 /** 打开弹窗 */
 const open = () => {
@@ -47,9 +72,9 @@ const close = () => {
   }
 };
 
-const chooseItem = (type: "host" | "team") => {
+const chooseItem = (type: 'host' | 'team') => {
   emit('roleChoose', type);
-}
+};
 
 defineExpose({
   open,

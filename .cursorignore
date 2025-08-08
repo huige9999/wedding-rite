@@ -1,0 +1,10 @@
+dist/
+.vscode/
+node_modules/
+
+src/env/
+src/pages/bye/
+src/pages/hlr/
+src/static/icons/
+src/static/images/
+

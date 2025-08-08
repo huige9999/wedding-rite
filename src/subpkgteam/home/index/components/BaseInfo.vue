@@ -1,96 +1,123 @@
 <template>
   <div class="base-info_container">
-    <div class="tags">
-      <div class="tag-item">#首席司仪</div>
-      <div class="tag-item">#好评收割机</div>
-      <div class="tag-item">#年度单王</div>
+    <div
+      v-if="parsedBrandInfo.brandTag?.length"
+      class="tags"
+    >
+      <div
+        v-for="(tag, index) in parsedBrandInfo.brandTag"
+        :key="index"
+        class="tag-item"
+      >
+        #{{ tag }}
+      </div>
     </div>
-    <!-- 我的声音 -->
-    <VoicePlayBtn
-      class="voice"
-      :voice-length="voiceLength"
-      :voice-url="personalInfo.voice"
+    <div
+      v-else
+      class="placeholder-div"
     />
     <div class="icon-btn-list">
       <!-- 第一个图标 -->
-      <div class="icon-btn first" @click="onFirstBtnClick">
-        <image class="icon" src="@/static/icons/my/blocks-white.svg" />
+      <div
+        class="icon-btn first"
+        @click="onFirstBtnClick"
+      >
+        <image
+          class="icon"
+          src="@/static/icons/my/blocks-white.svg"
+        />
       </div>
       <!-- 第二个图标 -->
       <div
         class="icon-btn second"
-        @click="navigateTo('personal-schedule-share')"
+        @click="onSecondBtnClick"
       >
-        <image class="icon" src="@/static/icons/my/calendar-white.svg" />
+        <image
+          class="icon"
+          src="@/static/icons/my/calendar-white.svg"
+        />
       </div>
       <!-- 第三个图标 -->
-      <div class="icon-btn third" @click="onThirdBtnClick">
-        <image class="icon" src="@/static/icons/my/location-white.svg" />
+      <div
+        class="icon-btn third"
+        @click="onThirdBtnClick"
+      >
+        <image
+          class="icon"
+          src="@/static/icons/my/location-white.svg"
+        />
       </div>
       <!-- 第四个图标 -->
       <div class="icon-btn fourth">
-        <button class="share-btn-hidden" open-type="share" />
-        <image class="icon" src="@/static/icons/my/arrow-up-right-white.svg" />
+        <button
+          class="share-btn-hidden"
+          open-type="share"
+        />
+        <image
+          class="icon"
+          src="@/static/icons/my/arrow-up-right-white.svg"
+        />
       </div>
     </div>
-    <!-- 「关于我」弹窗 -->
-    <MyPreviewShareAboutMePopup
-      ref="MyPreviewShareAboutMePopup"
-      :age="userInfo.age"
-      :height="userInfo.height"
-      :weight="userInfo.weight"
-      :proficiency="personalInfo.proficiency"
-    />
-    <MyPreviewShareMyAddressPopup
-      ref="MyPreviewShareMyAddressPopup"
-      :address="personalInfo.workPlace || ['']"
-    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reqGetAudioAndVideoMeta } from "@/api/others";
-import MyPreviewShareAboutMePopup from "@/components/wedding-link/MyPreviewShareAboutMePopup.vue";
-import MyPreviewShareMyAddressPopup from "@/components/wedding-link/MyPreviewShareMyAddressPopup.vue";
-import VoicePlayBtn from "@/components/wedding-link/VoicePlayBtn.vue";
-import { useViewedUser } from "@/stores/viewed-user-store";
-import { navigateTo } from "@/utils/navigate";
+import useTeam from '@/stores/team-store';
 
-const viewedUserStore = useViewedUser();
-const { userInfo, personalInfo } = storeToRefs(viewedUserStore);
-const ctx = getCurrentInstance();
-/** 录音长度 */
-const voiceLength = ref(0);
-// 监听personalInfo，更新录音长度和地址
-watch(
-  personalInfo,
-  async (newVal) => {
-    // 获取并设置音频长度
-    if (newVal.voice) {
-      const resData = (await reqGetAudioAndVideoMeta(newVal?.voice || ""))
-        ?.data as AnyObject;
-      voiceLength.value = Number(resData.format.duration);
+const teamStore = useTeam();
+const { brandInfo } = storeToRefs(teamStore);
+
+const parsedBrandInfo = computed(() => {
+  try {
+    if (brandInfo.value) {
+      return JSON.parse(brandInfo.value);
     }
-  },
-  { immediate: true }
-);
+  } catch (e) {
+    console.error('解析brandInfo失败', e);
+  }
+  return {} as any;
+});
 
 /** 第一个按钮点击事件 */
 const onFirstBtnClick = () => {
-  const myPreviewShareAboutMePopup = ctx?.refs
-    .MyPreviewShareAboutMePopup as InstanceType<
-    typeof MyPreviewShareAboutMePopup
-  >;
-  myPreviewShareAboutMePopup?.open();
+  const info = parsedBrandInfo.value || {};
+  uni.showModal({
+    title: '团队信息',
+    content: `公司/机构: ${info.companyName || '未设置'}\n联系电话: ${info.contactPhone || '未设置'}\n联系微信: ${info.contactWechat || '未设置'}`,
+    showCancel: false,
+    confirmText: '好的',
+  });
 };
 
-/** 第三个按钮点击事件 */
+/** 第二个按钮点击事件，跳转到团队档期页 */
+const onSecondBtnClick = () => {
+  uni.navigateTo({ url: '/subpkgteam/schedules/index/index' });
+};
+
+/** 第三个按钮点击事件, 显示团队地址 */
 const onThirdBtnClick = () => {
-  const myPreviewShareMyAddressPopup = ctx?.refs
-    .MyPreviewShareMyAddressPopup as InstanceType<
-    typeof MyPreviewShareMyAddressPopup
-  >;
-  myPreviewShareMyAddressPopup?.open();
+  if ((parsedBrandInfo.value as any).contactAddress) {
+    try {
+      const addr = JSON.parse((parsedBrandInfo.value as any).contactAddress);
+      uni.showModal({
+        title: '团队地址',
+        content: `${addr.address || ''}${addr.name || ''}`,
+        showCancel: false,
+        confirmText: '好的',
+      });
+    } catch (e) {
+      uni.showToast({
+        title: '地址信息格式错误',
+        icon: 'none',
+      });
+    }
+  } else {
+    uni.showToast({
+      title: '团队还未设置地址',
+      icon: 'none',
+    });
+  }
 };
 </script>
 
@@ -111,8 +138,9 @@ const onThirdBtnClick = () => {
       color: rgba(255, 255, 255, 0.7);
     }
   }
-  .voice {
-    margin-bottom: 65rpx;
+  .placeholder-div {
+    /* 用于在没有标签时占位，保持按钮组位置不变 */
+    height: 37rpx;
   }
   .icon-btn-list {
     display: flex;

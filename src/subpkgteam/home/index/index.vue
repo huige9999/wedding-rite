@@ -54,10 +54,10 @@ const navBarHeight = ref(0);
 const teamStore = useTeam();
 
 const { getHomeInfo } = teamStore;
-const { teamName, shareCover } = storeToRefs(teamStore);
+const { name, shareCover } = storeToRefs(teamStore);
 
 // 计算导航栏标题，优先使用团队名称，如果没有则使用默认值
-const navBarTitle = computed(() => teamName.value || '暂无团队名称');
+const navBarTitle = computed(() => name.value || '团队主页');
 
 /**
  * 导航栏左侧icon点击事件
@@ -82,7 +82,7 @@ const setHeightInfo = () => {
 };
 
 onShareAppMessage(() => ({
-  title: teamName.value,
+  title: name.value || '快来看看我们的团队主页',
   path: '/subpkgteam/home/index/index',
   imageUrl: shareCover.value,
 }));

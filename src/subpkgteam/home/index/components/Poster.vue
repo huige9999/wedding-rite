@@ -23,7 +23,10 @@
         </div>
       </div>
       <!-- 上传过海报的情况 -->
-      <div class="has-upload">
+      <div
+        v-else
+        class="has-upload"
+      >
         <uni-swiper-dot
           v-if="photoList.length > 0"
           class="photo-swiper"

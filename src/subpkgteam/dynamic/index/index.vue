@@ -1,6 +1,9 @@
 <!-- 「更多动态」页面 -->
 <template>
-  <div class="container">
+  <div
+    class="container"
+    @click="console.log('aa')"
+  >
     <uni-nav-bar
       class="nav-bar"
       title="动态列表"
@@ -9,16 +12,51 @@
       left-icon="left"
       @click-left="back"
     />
-    <div class="dynamic-list">
-      <div class="list-item" v-for="(item ,index) in dynamicList" :key="index">
-        <div class="content">{{ item.content }}</div>
-        <div class="card-list" v-if="item.mediaInfo.length > 0">
+    <div
+      v-if="dynamicList.length === 0"
+      class="empty-state"
+    >
+      还没有发布任何动态哦
+    </div>
+    <div
+      v-else
+      class="dynamic-list"
+    >
+      <div
+        v-for="(item ,index) in dynamicList"
+        :key="index"
+        class="list-item"
+      >
+        <div class="content">
+          {{ item.content }}
+        </div>
+        <div
+          v-if="item.mediaInfo.length > 0"
+          class="card-list"
+        >
           <div
-            class="card-list_item"
             v-for="(media, mediaIndex) in item.mediaInfo"
             :key="mediaIndex"
+            class="card-list_item"
           >
-            <image class="cover-img" :src="media.src" />
+            <image
+              class="cover-img"
+              :src="media.src"
+            />
+          </div>
+        </div>
+        <div class="actions">
+          <div
+            class="btn edit"
+            @click="editDynamic(item.find_id)"
+          >
+            编辑
+          </div>
+          <div
+            class="btn delete"
+            @click="deleteDynamic(item.find_id)"
+          >
+            删除
           </div>
         </div>
       </div>
@@ -27,11 +65,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reqGetDynamicList } from "@/api/team-api";
-import useTeam from "@/stores/team-store";
-import { back } from "@/utils/navigate";
+import { reqGetDynamicList, reqRemoveWorks } from '@/api/team-api';
+import useTeam from '@/stores/team-store';
+import { back } from '@/utils/navigate';
 
 type TDynamic = {
+  find_id: string;
   mediaInfo: string;
   content: string;
 }
@@ -53,17 +92,41 @@ const initData = async () => {
     dynamicList.value = res.data.data.list.map((item) => {
       const mediaInfo = JSON.parse(item.mediaInfo);
       return {
+        find_id: item.find_id,
         content: item.content,
         mediaInfo,
-      }
-    })
+      };
+    });
     console.log(res);
   } catch (err) {
     console.log(err);
   }
 };
 
-initData();
+const editDynamic = (dynamicId: string) => {
+  uni.navigateTo({ url: `/subpkgteam/dynamic/add/index?dynamicId=${dynamicId}` });
+};
+
+const deleteDynamic = (dynamicId: string) => {
+  uni.showModal({
+    title: '确认删除',
+    content: '确定要删除这条动态吗？此操作不可撤销。',
+    success: async (res) => {
+      if (res.confirm) {
+        await reqRemoveWorks(dynamicId);
+        uni.showToast({
+          title: '删除成功',
+          icon: 'success',
+        });
+        initData();
+      }
+    },
+  });
+};
+
+onShow(() => {
+  initData();
+});
 
 </script>
 
@@ -80,6 +143,25 @@ initData();
         color: #000000;
         margin-bottom: 38rpx;
       }
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 20rpx;
+        gap: 40rpx;
+        font-size: 26rpx;
+        color: #666;
+        .btn {
+          padding: 5rpx 15rpx;
+          border-radius: 8rpx;
+          &:hover {
+            background-color: #f0f0f0;
+          }
+        }
+        .delete {
+          color: #e54d42;
+        }
+      }
       .card-list {
         display: grid;
         grid-template-columns: repeat(3, min-content);
@@ -95,6 +177,12 @@ initData();
         }
       }
     }
+  }
+  .empty-state {
+    text-align: center;
+    color: #999;
+    padding-top: 200rpx;
+    font-size: 30rpx;
   }
 }
 </style>

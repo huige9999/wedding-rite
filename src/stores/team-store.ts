@@ -27,7 +27,6 @@ type TeamBaseParam = {
  * 团队信息相关的数据仓库
  */
 export default defineStore('team', () => {
-  const teamName = ref('');
   const teamId = ref('');
   const brandInfo = ref(''); // 菜单栏品牌信息所有字段(JSON字符串对象)
   const phone = ref('');
@@ -72,12 +71,7 @@ export default defineStore('team', () => {
   };
 
   const setTeamInfo = ({ id, name: teamNameParam }: TeamBaseParam = {}) => {
-    if (teamNameParam) {
-      teamName.value = teamNameParam;
-      setStorageTeamInfo({ teamName: teamNameParam });
-    } else {
-      teamName.value = getStorageTeamInfo().teamName;
-    }
+    // teamName 的设置逻辑被合并到 getHomeInfo 和 MenuLeft 组件中对 name 的直接修改
 
     if (id) {
       teamId.value = id;
@@ -113,7 +107,6 @@ export default defineStore('team', () => {
     name,
     avator,
     headImg,
-    teamName,
     teamId,
     brandInfo,
     needRefreshOffer,

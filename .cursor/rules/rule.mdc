@@ -1,0 +1,58 @@
+---
+description: 端到端任务
+alwaysApply: false
+---
+# 架构与目录结构
+1. 严格遵守分层结构:
+  ○ API请求: 必须封装在 src/api/ 目录下，并按业务模块（如 user-api.ts, team-api.ts）拆分。
+  ○ 状态管理: 全局状态必须通过 src/stores/ 目录下的 Pinia store 进行管理，同样按模块划分。
+  ○ 公共组件: 全局复用的组件放在 src/components/，与特定业务（如 wedding-link）强相关的组件放在 src/components/wedding-link/。
+  ○ 工具函数: 必须放在 src/utils/ 目录下，并遵循单一职责原则（如 navigate.ts 只管路由，parse.ts 只管数据格式化）。
+2. 强制使用分包 (Sub-packaging):
+  ○ 所有非 TabBar 的功能页面都必须定义在分包中。
+  ○ 个人用户端 功能页面放入 src/subpkg/wedding-link/。
+  ○ 团队管理端 功能页面放入 src/subpkgteam/。
+  ○ 主包 (src/pages/) 只保留 TabBar 页面和特殊入口页面（如 hlr, bye）。
+3. 文件与组件命名:
+  ○ Vue 组件: 使用大驼峰命名法 (PascalCase)，例如 MyBookingItem.vue。
+  ○ TypeScript/JavaScript 文件: 使用短横线命名 (kebab-case)，例如 user-store.ts。
+  ○ 目录: 使用小驼峰命名 (camelCase) 或短横线命名 (kebab-case)，例如 clientInfo 或 wedding-link。
+# Vue 3 & Uni-app 编码风格
+1. 强制使用 <script setup lang="ts">: 所有 Vue 组件都必须使用此语法，以保持 Composition API 风格的统一。
+2. 响应式数据:
+  ○ 优先使用 ref 和 reactive。ref 用于基本类型、单个对象或数组；reactive 用于结构固定的复杂对象。
+  ○ 在模板中直接使用 ref 定义的变量，无需 .value。
+3. 生命周期: 始终使用 Composition API 形式的生命周期钩子，例如 onLoad, onShow。
+4. 组件通信:
+  ○ 父传子：使用 defineProps<Props>() 宏。
+  ○ 子传父：使用 defineEmits() 宏，并清晰定义事件名称和类型。
+5. DOM/实例引用: 使用 ref 模板引用和 getCurrentInstance() 来获取组件实例或 DOM 元素，避免使用 this。
+# TypeScript 规范
+1. 强类型:
+  ○ 为所有变量、函数参数、返回值和 Props 添加明确的类型定义。
+  ○ 严禁使用 any 类型。若类型不确定，应使用 unknown 并进行类型守卫，或定义更具体的联合类型。
+2. 类型定义:
+  ○ 组件内部的简单类型可直接定义。
+  ○ 跨组件或模块复用的复杂类型，必须在 src/types/ 目录下创建或更新 .d.ts 文件。例如，API 响应体类型应在 src/types/res.d.ts 中定义。
+# 状态管理 (Pinia)
+1. 模块化 Store: 每个核心业务模块（user, team, work, schedule等）必须有自己独立的 Store 文件。
+2. 获取状态: 在组件中，必须使用 storeToRefs 来解构 state 和 getters，以确保其响应性。
+  ○ 正确: const { userInfo } = storeToRefs(userStore);
+  ○ 错误: const { userInfo } = userStore;
+3. 修改状态:
+  ○ 所有对 state 的修改都必须通过 actions 进行。
+  ○ actions 应该是异步的，并封装 API 调用、数据处理和 state 赋值的完整逻辑。
+4. 派生状态: 任何基于 state 的计算或派生数据，都应通过 getters 实现。
+# API & 网络请求
+1. API 封装: 新增的 API 请求必须在 src/api/ 目录下的相应模块文件中进行封装，并导出为独立的函数。
+2. 数据解析: 从后端获取的原始数据（response.data.data）不应直接在页面上使用。应在 utils/parse.ts 中创建对应的解析函数，或在 Store 的 action 中进行处理，将其转换为前端定义好的、干净的数据模型（Interface/Type）。
+# 路由与导航
+1. 统一导航: 所有页面跳转必须使用 src/utils/navigate.ts 中封装的 navigateTo 和 back 等辅助函数。
+2. 页面配置: 新增任何页面后，必须立即在 src/pages.json 中完成路由路径、分包归属和页面样式的配置。
+# 样式 (SCSS)
+1. Scoped SCSS: 所有 Vue 组件的样式必须写在 <style lang="scss" scoped> 块中，以避免全局样式污染。
+2. 变量优先:
+  ○ 颜色、字体大小、边距等可复用的样式值，应优先使用 src/uni.scss 中定义的全局 SCSS 变量。
+  ○ 若变量不存在，应考虑是否需要添加为全局变量。
+3. 单位: 尺寸单位统一使用 rpx，以确保多端适配。字体大小可根据情况使用 px 或 rpx。
+4. 布局: 优先使用 flex 和 grid 进行布局，确保代码的简洁和响应性。
